@@ -36,20 +36,32 @@ function show()
 $(document).ready(function() {
     $('#record').click(function() {
 
+        $('#error_name').html('');
+        $('#error_email').html('');
+        $('#error_comment').html('');
+
         var form = $("#comment_form").serialize()
 
-        if(name == '' || comment == '' || email == '') {
-            $('#error').html('Пожалуюста заполните все поля');
-        } else if(name !== '' || comment !== '') {
-            $('#error').html('');
             $.ajax({
                 type: 'POST',
                 url: window.location.href + 'store',
                 data: form,
                 success: function(data) {
                     show();
+                },
+                error: function(data) {
+                    var errorMassage = 'Поле не должно быть пустым';
+
+                    if (data.responseJSON.name) {
+                        $('#error_name').html(errorMassage);
+                    }
+                    if (data.responseJSON.email) {
+                        $('#error_email').html(errorMassage);
+                    }
+                    if (data.responseJSON.comment) {
+                        $('#error_comment').html(errorMassage);
+                    }
                 }
             });
-        }
     });
 });

@@ -39,7 +39,7 @@ class CreateRequest extends FormRequest
         $errors = (new ValidationException($validator))->errors();
 
         throw new HttpResponseException(
-            response()->json(['errors' => $errors], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+            response()->json($errors, JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
         );
     }
 
